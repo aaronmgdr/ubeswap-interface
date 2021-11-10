@@ -14,12 +14,12 @@ UbeswapDefaultList.tokens.concat(UbeswapExperimentalList.tokens).forEach((token)
   images[token.address] = token.logoURI
 })
 
-async function getColorFromToken(token: Token): Promise<string | null> {
-  if (token.chainId === ChainId.ALFAJORES && token.address === '0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735') {
+async function getColorFromToken({ address, chainId }: { address: string; chainId: number }): Promise<string | null> {
+  if (chainId === ChainId.ALFAJORES && address === '0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735') {
     return Promise.resolve('#FAAB14')
   }
 
-  const path = images[token.address]
+  const path = images[address]
   if (!path) {
     return '#FAAB14'
   }
@@ -58,23 +58,17 @@ async function getColorFromUriPath(uri: string): Promise<string | null> {
 export function useColor(token?: Token) {
   const theme = useTheme()
   const [color, setColor] = useState(theme.primary1)
-
+  const chainId = token?.chainId
+  const address = token?.address
   useLayoutEffect(() => {
-    let stale = false
-
-    if (token) {
-      getColorFromToken(token).then((tokenColor) => {
-        if (!stale && tokenColor !== null) {
+    if (chainId && address) {
+      getColorFromToken({ chainId, address }).then((tokenColor) => {
+        if (tokenColor !== null) {
           setColor(tokenColor)
         }
       })
     }
-
-    return () => {
-      stale = true
-      setColor('#2172E5')
-    }
-  }, [token])
+  }, [chainId, address])
 
   return color
 }
