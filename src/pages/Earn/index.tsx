@@ -323,7 +323,13 @@ export default function Earn() {
 
   // eslint-disable-next-line react/prop-types
   const Row = memo<{ index: number; style: React.CSSProperties }>(({ index, style }) => {
-    return <div style={style}>{rows[index].element}</div>
+    return (
+      <Centerer style={style}>
+        <PageWrapper gap="sm" justify="center">
+          {rows[index].element}
+        </PageWrapper>
+      </Centerer>
+    )
   }, areEqual)
   Row.displayName = 'PoolCardRow'
 
@@ -332,17 +338,21 @@ export default function Earn() {
   }
 
   return (
-    <PageWrapper gap="sm" justify="center">
-      <List
-        className="no-scrollbars"
-        height={height / 1.3}
-        itemCount={rows.length}
-        itemSize={getItemSize}
-        width={Math.min(width - 40, 640)}
-        ref={listRef}
-      >
-        {Row}
-      </List>
-    </PageWrapper>
+    <List
+      className="no-scrollbars"
+      height={height * 1.3}
+      itemCount={rows.length}
+      itemSize={getItemSize}
+      width={width}
+      ref={listRef}
+    >
+      {Row}
+    </List>
   )
 }
+
+const Centerer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
