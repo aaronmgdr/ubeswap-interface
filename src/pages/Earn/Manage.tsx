@@ -308,34 +308,37 @@ export default function Manage({
                   </ButtonEmpty>
                 )}
               </RowBetween>
-              {stakingInfo?.rewardRates?.map((rewardRate, idx) => (
-                <RowBetween style={{ alignItems: 'baseline' }} key={rewardRate.token.symbol}>
-                  <TYPE.largeHeader fontSize={36} fontWeight={600}>
-                    {countUpAmounts[idx] ? (
-                      <CountUp
-                        key={countUpAmounts[idx]}
-                        isCounting
-                        decimalPlaces={4}
-                        start={parseFloat(countUpAmountsPrevious[idx] || countUpAmounts[idx])}
-                        end={parseFloat(countUpAmounts[idx])}
-                        thousandsSeparator={','}
-                        duration={1}
-                      />
-                    ) : (
-                      '0'
-                    )}
-                  </TYPE.largeHeader>
-                  <TYPE.black fontSize={16} fontWeight={500}>
-                    <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px ' }}>
-                      ⚡
-                    </span>
-                    {stakingInfo?.active
-                      ? rewardRate.multiply(BIG_INT_SECONDS_IN_WEEK)?.toSignificant(4, { groupSeparator: ',' }) ?? '-'
-                      : '0'}
-                    {` ${rewardRate.token.symbol} / ${t('week')}`}
-                  </TYPE.black>
-                </RowBetween>
-              ))}
+              {stakingInfo?.rewardRates
+                // show if rewards are more than zero or unclaimed are greater than zero
+                ?.filter((rewardRate, idx) => rewardRate.greaterThan(0) || countUpAmounts[idx])
+                ?.map((rewardRate, idx) => (
+                  <RowBetween style={{ alignItems: 'baseline' }} key={rewardRate.token.symbol}>
+                    <TYPE.largeHeader fontSize={36} fontWeight={600}>
+                      {countUpAmounts[idx] ? (
+                        <CountUp
+                          key={countUpAmounts[idx]}
+                          isCounting
+                          decimalPlaces={4}
+                          start={parseFloat(countUpAmountsPrevious[idx] || countUpAmounts[idx])}
+                          end={parseFloat(countUpAmounts[idx])}
+                          thousandsSeparator={','}
+                          duration={1}
+                        />
+                      ) : (
+                        '0'
+                      )}
+                    </TYPE.largeHeader>
+                    <TYPE.black fontSize={16} fontWeight={500}>
+                      <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px ' }}>
+                        ⚡
+                      </span>
+                      {stakingInfo?.active
+                        ? rewardRate.multiply(BIG_INT_SECONDS_IN_WEEK)?.toSignificant(4, { groupSeparator: ',' }) ?? '-'
+                        : '0'}
+                      {` ${rewardRate.token.symbol} / ${t('week')}`}
+                    </TYPE.black>
+                  </RowBetween>
+                ))}
             </AutoColumn>
           </StyledBottomCard>
         </BottomSection>
