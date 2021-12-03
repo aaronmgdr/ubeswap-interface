@@ -177,14 +177,16 @@ export default function Manage({
             {stakingInfo?.active && (
               <>
                 <TYPE.body style={{ margin: 0 }}>{t('poolRate')}</TYPE.body>
-                {stakingInfo?.totalRewardRates?.map((rewardRate) => {
-                  return (
-                    <TYPE.body fontSize={24} fontWeight={500} key={rewardRate.token.symbol}>
-                      {rewardRate?.multiply(BIG_INT_SECONDS_IN_WEEK)?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
-                      {` ${rewardRate.token.symbol} / week`}
-                    </TYPE.body>
-                  )
-                })}
+                {stakingInfo?.totalRewardRates
+                  ?.filter((rewardRate) => !rewardRate.equalTo(0))
+                  ?.map((rewardRate) => {
+                    return (
+                      <TYPE.body fontSize={24} fontWeight={500} key={rewardRate.token.symbol}>
+                        {rewardRate?.multiply(BIG_INT_SECONDS_IN_WEEK)?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
+                        {` ${rewardRate.token.symbol} / week`}
+                      </TYPE.body>
+                    )
+                  })}
               </>
             )}
           </AutoColumn>
