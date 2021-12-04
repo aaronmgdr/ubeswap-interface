@@ -227,9 +227,9 @@ export const PoolCard: React.FC<Props> = ({ farmSummary }: Props) => {
 
 // Format amount based on the size, when under 1 show significant digits, when 1 to 10 show 1 decimal, over 10 round
 function formatStakedAmount(tokenAmmount?: TokenAmount) {
-  const amount = tokenAmmount?.lessThan(1)
+  const amount = tokenAmmount?.lessThan('1')
     ? tokenAmmount.toSignificant(2)
-    : tokenAmmount?.toFixed(tokenAmmount?.lessThan(10) ? 1 : 0, { groupSeparator: ',' })
+    : tokenAmmount?.toFixed(tokenAmmount?.lessThan('10') ? 1 : 0, { groupSeparator: ',' })
   return `${amount} ${tokenAmmount?.token.symbol}`
 }
 

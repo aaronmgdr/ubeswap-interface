@@ -178,7 +178,7 @@ export default function Manage({
               <>
                 <TYPE.body style={{ margin: 0 }}>{t('poolRate')}</TYPE.body>
                 {stakingInfo?.totalRewardRates
-                  ?.filter((rewardRate) => !rewardRate.equalTo(0))
+                  ?.filter((rewardRate) => !rewardRate.equalTo('0'))
                   ?.map((rewardRate) => {
                     return (
                       <TYPE.body fontSize={24} fontWeight={500} key={rewardRate.token.symbol}>
@@ -310,7 +310,7 @@ export default function Manage({
               </RowBetween>
               {stakingInfo?.rewardRates
                 // show if rewards are more than zero or unclaimed are greater than zero
-                ?.filter((rewardRate, idx) => rewardRate.greaterThan(0) || countUpAmounts[idx])
+                ?.filter((rewardRate, idx) => rewardRate.greaterThan('0') || countUpAmounts[idx])
                 ?.map((rewardRate, idx) => (
                   <RowBetween style={{ alignItems: 'baseline' }} key={rewardRate.token.symbol}>
                     <TYPE.largeHeader fontSize={36} fontWeight={600}>
