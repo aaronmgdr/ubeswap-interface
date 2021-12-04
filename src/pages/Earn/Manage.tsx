@@ -318,7 +318,7 @@ export default function Manage({
                         <CountUp
                           key={countUpAmounts[idx]}
                           isCounting
-                          decimalPlaces={4}
+                          decimalPlaces={parseFloat(countUpAmounts[idx]) < 0.0001 ? 6 : 4}
                           start={parseFloat(countUpAmountsPrevious[idx] || countUpAmounts[idx])}
                           end={parseFloat(countUpAmounts[idx])}
                           thousandsSeparator={','}
