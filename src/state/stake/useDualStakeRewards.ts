@@ -83,8 +83,12 @@ export const useMultiStakeRewards = (
       (a, b) => externalRewardsTokens[a?.address] - externalRewardsTokens[b?.address]
     )
     const rewardTokens = rewardsToken ? [rewardsToken, ...underlyingRewardTokens] : [...underlyingRewardTokens]
-
-    const earnedAmounts = getEarnedAmounts(earned, totalRewardRates)
+    const earnedAmounts =
+      earned && earned.length === rewardTokens.length
+        ? zip<BigNumber, Token>(earned, rewardTokens)
+            .map(([amount, token]) => new TokenAmount(token as Token, amount?.toString() ?? '0'))
+            .sort((a, b) => (a?.token?.symbol && b?.token?.symbol ? a.token.symbol.localeCompare(b.token.symbol) : 0))
+        : undefined
 
     return {
       stakingRewardAddress: address,
@@ -103,18 +107,4 @@ export const useMultiStakeRewards = (
       rewardTokens,
     }
   }, [data, rewardsToken, underlyingPool, address, active, externalRewardsTokens])
-}
-
-// because `earned` is just a series of BigNumbers we must somehow match to the Tokens
-// since the values of earned array are porportional to the value of the reward rates sort both the same way before zipzing together
-function getEarnedAmounts(earned: BigNumber[], totalRewardRates: TokenAmount[]) {
-  if (earned?.length === totalRewardRates?.length) {
-    const decendingRewardRates = totalRewardRates.slice(0).sort((a, b) => (a.lessThan(b) ? 1 : -1))
-    const descendingEarnedAmounts = earned?.sort((a, b) => (a.lt(b) ? 1 : -1))
-
-    return zip<BigNumber, TokenAmount>(descendingEarnedAmounts, decendingRewardRates)
-      .map(([amount, tokenAmount]) => new TokenAmount(tokenAmount?.token as Token, amount?.toString() ?? '0'))
-      .sort((a, b) => (a?.token?.symbol && b?.token?.symbol ? a.token.symbol.localeCompare(b.token.symbol) : 0))
-  }
-  return undefined
 }
