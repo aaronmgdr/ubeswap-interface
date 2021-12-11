@@ -8,9 +8,9 @@ export function relevantDigits(tokenAmount?: TokenAmount) {
     return tokenAmount.toSignificant(6)
   }
 
-  if (tokenAmount.lessThan('10')) {
-    return tokenAmount.toSignificant(2)
+  if (tokenAmount.lessThan('100')) {
+    return tokenAmount.toFixed(2)
   }
 
-  return tokenAmount.toFixed(2)
+  return tokenAmount.toFixed(0, { groupSeparator: ',' })
 }
