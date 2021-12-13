@@ -5,12 +5,8 @@ export function relevantDigits(tokenAmount?: TokenAmount) {
     return '0.0000'
   }
 
-  if (tokenAmount.lessThan('0.0001')) {
-    return '< 0.0001'
-  }
-
   if (tokenAmount.lessThan('1')) {
-    return tokenAmount.toSignificant(4)
+    return tokenAmount.toSignificant(2)
   }
 
   if (tokenAmount.lessThan('100')) {
