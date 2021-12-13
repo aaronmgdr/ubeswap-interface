@@ -1,6 +1,6 @@
 import { useContractKit } from '@celo-tools/use-contractkit'
 import { ChainId as UbeswapChainId, cUSD, JSBI } from '@ubeswap/sdk'
-import { StakedAmountsHelper } from 'components/earn/StakedAmountsHelper'
+import StakedAmountsHelper from 'components/earn/StakedAmountsHelper'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, RouteComponentProps } from 'react-router-dom'

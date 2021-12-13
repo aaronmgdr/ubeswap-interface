@@ -20,7 +20,7 @@ import { AutoColumn } from '../Column'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { RowBetween, RowFixed } from '../Row'
 import PoolStatRow from './PoolStats/PoolStatRow'
-import { StakedAmountsHelper } from './StakedAmountsHelper'
+import StakedAmountsHelper from './StakedAmountsHelper'
 import { Break, CardNoise } from './styled'
 
 const StatContainer = styled.div`

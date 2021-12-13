@@ -7,7 +7,7 @@ interface Props {
   userAmountTokenB: TokenAmount | undefined
 }
 
-export const StakedAmountsHelper = React.memo(function _StakedAmountsHelper({
+export default React.memo(function StakedAmountsHelper({
   userAmountTokenA,
   userAmountTokenB,
 }: Props) {
